@@ -15,12 +15,12 @@
     </div>
   </form>
 
-  <script src="<%= static_path(@conn, "/js/openpgp.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/vendor/openpgp.min.js") %>"></script>
   <script>
   (function(){
     // OpenPGP
     var openpgp = window.openpgp;
-    openpgp.initWorker({ path: '/js/openpgp.worker.min.js' });
+    openpgp.initWorker({ path: '/vendor/openpgp.worker.min.js' });
     var pubkey = openpgp.key.readArmored(`-----BEGIN PGP PUBLIC KEY BLOCK-----
 Comment: GPGTools - https://gpgtools.org
 
