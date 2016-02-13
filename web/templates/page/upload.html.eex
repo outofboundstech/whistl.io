@@ -11,7 +11,7 @@
 
     <div class="form-group">
       <button type="button" id="submit" class="btn btn-primary" disabled>Submit</button>
-      <button type="reset" class="btn btn-danger">Reset</button>
+      <button type="reset" class="btn btn-danger" disabled>Reset</button>
     </div>
   </form>
 
@@ -366,7 +366,7 @@ T+oEeVCEAoQy2QAEYcLnpBcvdInZ9TDMVu5h2JQQbIhNcVb48rbeI9GE
           armor: false
         };
         openpgp.encrypt(options).then(function(message){
-          blob = new Blob(message.message.packets.write(), { type: 'application/pgp-encrypted' });
+          blob = new Blob([message.message.packets.write()], { type: 'application/octet-stream' });
           // This file is ready to be submitted
           submit.disabled = false;
         });
@@ -384,7 +384,7 @@ T+oEeVCEAoQy2QAEYcLnpBcvdInZ9TDMVu5h2JQQbIhNcVb48rbeI9GE
       var payload = new FormData();
       payload.append('file', blob, filename);
       // Submit request asynchronously
-      xhr.open('POST', 'http://localhost:4000/upload');
+      xhr.open('POST', 'http://localhost:4000/file');
       xhr.send(payload);
     });
   })();

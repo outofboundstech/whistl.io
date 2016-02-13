@@ -5,6 +5,12 @@ defmodule Whistlio.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+  end
+
+  pipeline :fileupload do
+    plug :accepts, ["multipart/form-data"]
     # plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
@@ -17,8 +23,12 @@ defmodule Whistlio.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    get "/upload", PageController, :upload
-    post "/upload", PageController, :receive
+  end
+
+  scope "/file", Whistlio do
+    pipe_through :fileupload
+
+    post "/", FileController, :create
   end
 
   # Other scopes may use custom stacks.
