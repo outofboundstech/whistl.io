@@ -4,4 +4,13 @@ defmodule Whistlio.PageController do
   def index(conn, _params) do
     render conn, "index.html"
   end
+
+  def receive(conn, params) do
+    IO.inspect(params)
+    json conn, %{status: :ok}
+  end
+
+  def upload(conn, _params) do
+    render conn, "upload.html"
+  end
 end
