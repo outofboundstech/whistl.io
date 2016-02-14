@@ -3,7 +3,7 @@
   <p class="lead">The file you upload will be encrypted<br />client-side using <a href="http://openpgpjs.org/" target="_blank">OpenPGP.js</a>.</p>
 
   <!-- Form and form control -->
-  <%= form_for @conn, file_path(@conn, :create), [as: :upload, id: :upload, multipart: :true], fn f -> %>
+  <%= form_for @conn, file_path(@conn, :create), [as: :upload, id: :upload, multipart: :true, csrf_token: false], fn f -> %>
     <div class="form-group">
       <%= label f, :file, "Documents", class: "control-label" %>
       <%= file_input f, :file, [class: "form-control"] %>
@@ -381,11 +381,12 @@ T+oEeVCEAoQy2QAEYcLnpBcvdInZ9TDMVu5h2JQQbIhNcVb48rbeI9GE
       // Validate form data
       if (!blob) return;
       // Create XMLHttpRequest
-      var xhr = new XMLHttpRequest();
       var payload = new FormData();
       payload.append('file', blob, filename);
-      // Submit request asynchronously
+      var xhr = new XMLHttpRequest();
       xhr.open(form.method, form.action);
+      xhr.setRequestHeader('x-csrf-token', '<%= get_csrf_token %>');
+      // Submit request asynchronously
       xhr.send(payload);
     });
   })();

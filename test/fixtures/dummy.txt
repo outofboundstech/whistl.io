@@ -1,0 +1,1 @@
+This is the dummy.txt test fixtures used for testing the file upload controller

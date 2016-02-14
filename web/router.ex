@@ -10,8 +10,9 @@ defmodule Whistlio.Router do
   end
 
   pipeline :fileupload do
-    plug :accepts, ["multipart/form-data"]
-    # plug :protect_from_forgery
+    plug :accepts, ["json"]
+    plug :fetch_session
+    plug :protect_from_forgery
     plug :put_secure_browser_headers
   end
 
