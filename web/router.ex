@@ -25,7 +25,7 @@ defmodule Whistlio.Router do
     get "/", PageController, :index
   end
 
-  scope "/file", Whistlio do
+  scope "/files", Whistlio do
     pipe_through :fileupload
 
     post "/", FileController, :create

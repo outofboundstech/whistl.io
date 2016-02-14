@@ -27,3 +27,7 @@ import_config "#{Mix.env}.exs"
 config :phoenix, :generators,
   migration: true,
   binary_id: false
+
+# target_dir works but I don't know why...
+  config :whistlio, target_dir: "priv/uploads/"
+  config :whistlio, target_ext: ".gpg"

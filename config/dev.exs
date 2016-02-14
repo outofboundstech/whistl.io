@@ -40,7 +40,3 @@ config :whistlio, Whistlio.Repo,
   database: "whistlio_dev",
   hostname: "localhost",
   pool_size: 10
-
-# target_dir works but I don't know why...
-config :whistlio, target_dir: "priv/uploads/"
-config :whistlio, target_ext: ".gpg"

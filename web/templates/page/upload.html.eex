@@ -3,17 +3,17 @@
   <p class="lead">The file you upload will be encrypted<br />client-side using <a href="http://openpgpjs.org/" target="_blank">OpenPGP.js</a>.</p>
 
   <!-- Form and form control -->
-  <form id="upload">
+  <%= form_for @conn, file_path(@conn, :create), [as: :upload, id: :upload, multipart: :true], fn f -> %>
     <div class="form-group">
-      <label>Document</label>
-      <input type="file" id="file" name="file" class="form-control"></input>
+      <%= label f, :file, "Documents", class: "control-label" %>
+      <%= file_input f, :file, [class: "form-control"] %>
     </div>
 
     <div class="form-group">
-      <button type="button" id="submit" class="btn btn-primary" disabled>Submit</button>
-      <button type="reset" class="btn btn-danger" disabled>Reset</button>
+      <button type="button" id="upload_submit" class="btn btn-primary" disabled>Submit</button>
+      <button type="reset" id="upload_reset" class="btn btn-danger" disabled>Reset</button>
     </div>
-  </form>
+  <% end %>
 
   <script src="<%= static_path(@conn, "/vendor/openpgp.min.js") %>"></script>
   <script>
@@ -346,17 +346,18 @@ T+oEeVCEAoQy2QAEYcLnpBcvdInZ9TDMVu5h2JQQbIhNcVb48rbeI9GE
 =+BZS
 -----END PGP PUBLIC KEY BLOCK-----`).keys;
     // My scoped variables
-    var input = document.getElementById('file');
-    var submit = document.getElementById('submit');
+    var form = document.getElementById('upload');
+    var fileInput = document.getElementById('upload_file');
+    var submitBtn = document.getElementById('upload_submit');
     var filename = "";
     var blob = null;
     // Attach event listener to file input control
-    input.addEventListener('change', function(){
+    fileInput.addEventListener('change', function(){
       // Reset form elements and scoped variables for processing
-      submit.disabled = true;
+      submitBtn.disabled = true;
       filename = "";
       blob = null;
-      if (1 > input.files.length) return;
+      if (1 > fileInput.files.length) return;
       // Read and encrypt selected file
       var reader = new FileReader();
       reader.addEventListener('load', function(){
@@ -368,15 +369,15 @@ T+oEeVCEAoQy2QAEYcLnpBcvdInZ9TDMVu5h2JQQbIhNcVb48rbeI9GE
         openpgp.encrypt(options).then(function(message){
           blob = new Blob([message.message.packets.write()], { type: 'application/octet-stream' });
           // This file is ready to be submitted
-          submit.disabled = false;
+          submitBtn.disabled = false;
         });
       });
-      filename = input.files[0].name;
-      reader.readAsArrayBuffer(input.files[0]);
+      filename = fileInput.files[0].name;
+      reader.readAsArrayBuffer(fileInput.files[0]);
     });
     // Attach event listener to form submit button
-    submit.addEventListener('click', function(){
-      submit.disabled = true;
+    submitBtn.addEventListener('click', function(){
+      submitBtn.disabled = true;
       // Validate form data
       if (!blob) return;
       // Create XMLHttpRequest
@@ -384,7 +385,7 @@ T+oEeVCEAoQy2QAEYcLnpBcvdInZ9TDMVu5h2JQQbIhNcVb48rbeI9GE
       var payload = new FormData();
       payload.append('file', blob, filename);
       // Submit request asynchronously
-      xhr.open('POST', 'http://localhost:4000/file');
+      xhr.open(form.method, form.action);
       xhr.send(payload);
     });
   })();
