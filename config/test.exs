@@ -12,8 +12,11 @@ config :logger, level: :warn
 # Configure your database
 config :whistlio, Whistlio.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "whistlio",
+  password: "highpitch",
   database: "whistlio_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :whistlio, :files,
+  target_dir: ["priv/static", "uploads"]
