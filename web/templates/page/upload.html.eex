@@ -349,13 +349,11 @@ T+oEeVCEAoQy2QAEYcLnpBcvdInZ9TDMVu5h2JQQbIhNcVb48rbeI9GE
     var form = document.getElementById('upload');
     var fileInput = document.getElementById('upload_file');
     var submitBtn = document.getElementById('upload_submit');
-    var filename = "";
     var blob = null;
     // Attach event listener to file input control
     fileInput.addEventListener('change', function(){
       // Reset form elements and scoped variables for processing
       submitBtn.disabled = true;
-      filename = "";
       blob = null;
       if (1 > fileInput.files.length) return;
       // Read and encrypt selected file
@@ -372,7 +370,6 @@ T+oEeVCEAoQy2QAEYcLnpBcvdInZ9TDMVu5h2JQQbIhNcVb48rbeI9GE
           submitBtn.disabled = false;
         });
       });
-      filename = fileInput.files[0].name;
       reader.readAsArrayBuffer(fileInput.files[0]);
     });
     // Attach event listener to form submit button
@@ -382,7 +379,7 @@ T+oEeVCEAoQy2QAEYcLnpBcvdInZ9TDMVu5h2JQQbIhNcVb48rbeI9GE
       if (!blob) return;
       // Create XMLHttpRequest
       var payload = new FormData();
-      payload.append('file', blob, filename);
+      payload.append('file', blob, 'application/whistlio-encrypted');
       var xhr = new XMLHttpRequest();
       xhr.open(form.method, form.action);
       xhr.setRequestHeader('x-csrf-token', '<%= get_csrf_token %>');

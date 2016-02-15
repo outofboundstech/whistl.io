@@ -17,3 +17,6 @@ config :whistlio, Whistlio.Repo,
   database: "whistlio_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+config :whistlio, :files,
+  target_dir: ["priv/static", "uploads"]

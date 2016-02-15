@@ -40,3 +40,6 @@ config :whistlio, Whistlio.Repo,
   database: "whistlio_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :whistlio, :files,
+  target_dir: ["priv/static", "uploads"]
