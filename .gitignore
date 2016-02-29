@@ -25,3 +25,5 @@ erl_crash.dump
 .DS_Store
 priv/uploads
 web/static/app/elm-stuff
+web/static/app/index.html
+web/static/app/elm.js
